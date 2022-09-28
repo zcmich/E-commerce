@@ -11,22 +11,29 @@
 	<groupId>com.shopme</groupId>
 	<artifactId>ShopmeWebParent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>ShopmeWebParent</name>
 	<description>ShopmeWebParent</description>
 	<properties>
 		<java.version>15</java.version>
 	</properties>
 
-	<packaging>pom</packaging>
+
 
 	<modules>
 		<module>ShopmeBackEnd</module>
+		<module>ShopmeFrontEnd</module>
 	</modules>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
 		<dependency>
