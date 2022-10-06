@@ -21,7 +21,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Rollback(value = false)
 public class RoleRepositoryTests {
     @Autowired
-    RoleRepository repo;
+     RoleRepository repo;
 
     @Test
     public void testCreateFirstRole(){
