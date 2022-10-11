@@ -8,7 +8,7 @@
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
 
 
-    <title>Home- Shopme Admin Control Panel1</title>
+    <title>Users table</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -60,7 +60,13 @@
         </nav>
         <div>
             <h2>Manage Users</h2>
+            <a th:href="@{/users/new}">Create new user</a>
         </div>
+
+        <div th:if="${message != null}" class="alert alert-success">
+            [[${message}]]
+        </div>
+
 
         <div>
             <table class="table table-bordered table-striped table-hover table-responsive-xl">
