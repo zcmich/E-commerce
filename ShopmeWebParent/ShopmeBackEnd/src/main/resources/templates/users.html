@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8" content="text/html" http-equiv="content-type">
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport">
-    <script th:src="@{/webjars/jquery/jquery.min.js}" type="text/javascript"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/fontawesome/all.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/style.css}" type="text/css">
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
 
 
@@ -85,14 +88,21 @@
                 <tbody>
                     <tr th:each="user : ${listUser}">
                         <td>[[${user.id}]]</td>
-                        <td></td>
+                        <td><span class="fas fa-portrait fa-3x icon-dark"> </span></td>
                         <td>[[${user.email}]]</td>
                         <td>[[${user.firstName}]]</td>
                         <td>[[${user.lastName}]]</td>
                         <td>[[${user.roles}]]</td>
-                        <td>[[${user.enabled}]]</td>
                         <td>
-                            edit && delete
+                            <a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green " href=""></a>
+                            <a th:if="${user.enabled == false}" class="fas fa-check-circle fa-2x icon-dark " href=""></a>
+
+                        </td>
+                        <td>
+                            <a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"></a>
+                              &nbsp;   &nbsp;
+                            <a class="fas fa-trash fa-2x icon-red " href=""></a>
+
                         </td>
                     </tr>
                 </tbody>
