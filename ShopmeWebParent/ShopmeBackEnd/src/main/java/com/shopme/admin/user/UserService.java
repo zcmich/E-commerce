@@ -7,10 +7,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -75,5 +77,16 @@ public class UserService {
         }
     }
 
+    public void delete(Integer id) throws UserNotFoundException {
+        Long countById = userRepo.countById(id);
+        if (countById == null || countById == 0){
+            throw new UserNotFoundException("Could not find user with ID" + id);
+        }
+        userRepo.deleteById(id);
+    }
+
+    public void upateUserEnabledStatus(Integer id, boolean enabled){
+        userRepo.updateEnabledStatus(id,enabled);
+    }
 
 }
