@@ -3,7 +3,6 @@ package com.shopme.admin.user;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,7 @@ public class UserService {
         return (List<Role>) roleRepo.findAll();
     }
 
-    public void save(User user) {
+    public User save(User user) {
         boolean isUpdatingUser = (user.getId() != null);
 
         if (isUpdatingUser) {
@@ -44,7 +43,7 @@ public class UserService {
             encodePasswordEncoder(user);
         }
 
-        userRepo.save(user);
+       return userRepo.save(user);
     }
 
     private void encodePasswordEncoder(User user) {
@@ -85,7 +84,7 @@ public class UserService {
         userRepo.deleteById(id);
     }
 
-    public void upateUserEnabledStatus(Integer id, boolean enabled){
+    public void updateUserEnabledStatus(Integer id, boolean enabled){
         userRepo.updateEnabledStatus(id,enabled);
     }
 
