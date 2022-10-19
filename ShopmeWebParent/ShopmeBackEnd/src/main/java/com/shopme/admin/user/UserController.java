@@ -50,12 +50,16 @@ public class UserController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(fileName);
             User savedUser = service.save(user);
-            String uploadDir = "./ShopmeWebParent/ShopmeBackEnd/user-photos/" + savedUser.getId();
+            String uploadDir = "user-photos/" + savedUser.getId();
+            FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        }else{
+            if (user.getPhotos().isEmpty()) user.setPhotos(null);
+                 service.save(user);
+
         }
 
 
-//        service.save(user);
 
         redirectAttributes.addFlashAttribute("message", "User "+ user.getFirstName()+ " "+user.getLastName()
                                                                    +" has been saved successfully");
@@ -101,7 +105,7 @@ public class UserController {
                                           RedirectAttributes redirectAttributes){
         service.updateUserEnabledStatus(id,enabled);
         String status = enabled ? "enabled" : "disabled";
-        String message = "User with ID " + id + "has been" + status;
+        String message = "User with ID " + id + " has been " + status;
         redirectAttributes.addFlashAttribute("message",message);
         return  "redirect:/users";
     }

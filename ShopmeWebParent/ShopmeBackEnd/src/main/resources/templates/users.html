@@ -34,7 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/brand}">Brand</a>
                     </li>
-                    <li class="nav-item">v
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/products}">Products</a>
                     </li>
                     <li class="nav-item">
@@ -66,7 +66,7 @@
             <a th:href="@{/users/new}">Create new user</a>
         </div>
 
-        <div th:if="${message != null}" class="alert alert-success text-center col-sm-8">
+        <div th:if="${message != null}" class="alert alert-success text-center col-sm-8 offset-sm-3">
             [[${message}]]
         </div>
 
@@ -88,7 +88,11 @@
                 <tbody>
                     <tr th:each="user : ${listUser}">
                         <td>[[${user.id}]]</td>
-                        <td><span class="fas fa-portrait fa-3x icon-dark"> </span></td>
+                        <td>
+                            <span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-dark"> </span>
+                            <img th:if="${user.photos != null} " th:src="@{${user.getPhotosImagePath()}}"
+                              style="width: 80px">
+                        </td>
                         <td>[[${user.email}]]</td>
                         <td>[[${user.firstName}]]</td>
                         <td>[[${user.lastName}]]</td>
