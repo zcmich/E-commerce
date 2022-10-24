@@ -97,7 +97,8 @@ public class UserRepositoryTests {
 
     @Test
     public void testGetUserByEmail(){
-        String email = "testingwork34125@gmail.com";
+//        String email = "testingwork34125@gmail.com";
+        String email = "aecllc.bnk@gmail.com";
         User user = repo.getUserByEmail(email);
 
         assertThat(user).isNotNull();
@@ -137,5 +138,23 @@ public class UserRepositoryTests {
 
         assertThat(lisUser.size()).isEqualTo(pageSize);
     }
+
+    @Test
+    public void testSearchUsers(){
+        String keyword = "bruce";
+
+        int pageNumber = 0;
+        int pageSize = 4;
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<User> page = repo.findAll(keyword,pageable);
+
+        List<User> listUser = page.getContent();
+
+        listUser.forEach(System.out::println);
+
+        assertThat(listUser.size()).isGreaterThan(0);
+    }
+
 
 }
