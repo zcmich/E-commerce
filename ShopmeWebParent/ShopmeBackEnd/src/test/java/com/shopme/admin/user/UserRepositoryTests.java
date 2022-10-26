@@ -2,6 +2,7 @@ package com.shopme.admin.user;
 
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -31,6 +32,13 @@ public class UserRepositoryTests {
 
     @Autowired
     private TestEntityManager entityManager;
+
+//    @BeforeEach
+//    public void  setup(){
+//        System.out.println("test");
+//        System.out.println("test");
+//
+//    }
 
     @Test
     public void testCreateUserNewWithOneRole(){
