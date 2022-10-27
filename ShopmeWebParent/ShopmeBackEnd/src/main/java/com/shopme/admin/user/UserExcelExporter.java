@@ -62,13 +62,10 @@ public class UserExcelExporter extends AbstractExporter {
         writeHeaderLine();
         writeDataLine(userList);
 
-
-
         ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
-
     }
 
     private void writeDataLine(List<User> listUsers) {
@@ -89,9 +86,6 @@ public class UserExcelExporter extends AbstractExporter {
             createCell(row, columnIndex++, user.getLastName(), cellStyle);
             createCell(row, columnIndex++, user.getRoles().toString(), cellStyle);
             createCell(row, columnIndex++, user.isEnabled(), cellStyle);
-
-
-
         }
 
     }
