@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8" content="text/html" http-equiv="content-type">
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport">
     <script th:src="@{/webjars/jquery/jquery.min.js}" type="text/javascript"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/fontawesome/all.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/style.css}" type="text/css">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
 
 
@@ -54,6 +57,15 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/settings}">Settings</a>
+                    </li>
+                    <li>
+                        <span class="fas fa-user fa-2x icon-silver"></span>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" sec:authentication="principal.fullName"></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </div>
