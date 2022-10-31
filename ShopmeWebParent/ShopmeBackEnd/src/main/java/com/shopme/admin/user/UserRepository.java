@@ -15,7 +15,7 @@ import org.springframework.data.repository.query.Param;
  * @project ShopmeProject
  */
 public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
-//    @Query(value = "SELECT u from User where u.email = :email", nativeQuery = true)
+    @Query(value = "SELECT u from User u where u.email = :email")
 //    User getUserByEmail(@Param("email") String email);
     public User getUserByEmail(String email);
     Long countById(Integer id);
