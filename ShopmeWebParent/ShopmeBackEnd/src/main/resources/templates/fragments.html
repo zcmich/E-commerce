@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+
+<head th:fragment="page_head(title)">
+    <meta charset="UTF-8" content="text/html" http-equiv="content-type">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport">
+    <script th:src="@{/webjars/jquery/jquery.min.js}" type="text/javascript"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/fontawesome/all.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/style.css}" type="text/css">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/common.js}" type="text/javascript"></script>
+
+
+    <title>[[${title}]]</title>
+
 </head>
+
 <body>
-    <th th:fragment="column_link(fieldName, columnLabel, removeTag )" th:remove="${removeTag}">
-        <a class="text-white"
-           th:href="@{'/users/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword='+ keyword : ' ' } }">
-            [[${columnLabel}]]
-        </a>
-        <span th:if="${sortField == fieldName}"
-              th:class="${sortDir} == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
+
+<div th:fragment="footer" class="text-center m-3">
+    <p>Shopme control panel - Copyright &copy; shopme11 </p>
+</div>
+
+
+
+<th th:fragment="column_link(fieldName, columnLabel, removeTag )" th:remove="${removeTag}">
+    <a class="text-white"
+       th:href="@{'/users/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword='+ keyword : ' ' } }">
+        [[${columnLabel}]]
+    </a>
+    <span th:if="${sortField == fieldName}"
+          th:class="${sortDir} == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
 
       </span>
-    </th>
+</th>
 
-    <a th:fragment="page_link(pageNum, label)"
-       class="page-link"
-       th:href="@{'/users/page/'+ ${pageNum} +'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword : ' ' } }">[[${label}]]</a>
+<a th:fragment="page_link(pageNum, label)"
+   class="page-link"
+   th:href="@{'/users/page/'+ ${pageNum} +'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword : ' ' } }">[[${label}]]</a>
 </body>
 </html>
