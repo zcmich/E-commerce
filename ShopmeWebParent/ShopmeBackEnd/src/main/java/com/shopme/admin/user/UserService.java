@@ -51,6 +51,25 @@ public class UserService {
         return (List<Role>) roleRepo.findAll();
     }
 
+
+    public User updateAccount(User userInForm) {
+        User userInDb = userRepo.findById(userInForm.getId()).get();
+
+        if(!userInForm.getPassword().isEmpty()){
+            userInDb.setPassword(userInForm.getPassword());
+            encodePasswordEncoder(userInDb);
+        }
+
+        if(userInForm.getPhotos() != null){
+            userInDb.setPhotos(userInForm.getPhotos());
+        }
+
+        userInDb.setFirstName(userInForm.getFirstName());
+        userInDb.setLastName(userInForm.getLastName());
+
+        return userRepo.save(userInDb);
+    }
+
     public User save(User user) {
         boolean isUpdatingUser = (user.getId() != null);
 
