@@ -1,6 +1,8 @@
-package com.shopme.admin.user;
+package com.shopme.admin.user.controller;
 
 import com.shopme.admin.FileUploadUtil;
+import com.shopme.admin.user.UserNotFoundException;
+import com.shopme.admin.user.UserService;
 import com.shopme.admin.user.export.UserCsvExporter;
 import com.shopme.admin.user.export.UserExcelExporter;
 import com.shopme.admin.user.export.UserPdfExporter;
@@ -30,9 +32,9 @@ public class UserController {
     private UserService service;
 
     @GetMapping("/users")
-    public void listAll(Model model){
+    public String listFirstPage(Model model){
         List<User> listUser = service.listAll();
-        listByPage(1,model, "firstName", "asc", null);
+       return listByPage(1,model, "firstName", "asc", null);
     }
 
     @GetMapping("users/page/{pageNum}")
@@ -69,7 +71,7 @@ public class UserController {
 
 
 
-        return "users";
+        return "users/users";
     }
 
     @GetMapping("/users/new")
@@ -80,7 +82,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("listRoles",listRoles);
         model.addAttribute("pageTitle", "Create new User");
-        return "user_form";
+        return "/users/user_form";
     }
 
     @PostMapping("/users/save")
@@ -123,7 +125,7 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("listRoles",listRoles);
             model.addAttribute("pageTitle", "Edit User (ID: "+ user.getId() +" )");
-            return "user_form";
+            return "/users/user_form";
         }catch (UserNotFoundException ex){
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
             return  "redirect:/users";
