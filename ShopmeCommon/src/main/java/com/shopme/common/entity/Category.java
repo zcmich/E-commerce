@@ -28,6 +28,18 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private Set<Category> children = new HashSet<>();
 
+    public Category(String name, String alias, String image) {
+        this.name = name;
+        this.alias = alias;
+        this.image = image;
+    }
+
+    public Category(String name, String alias, String image,Category parent) {
+        this(name, alias, image);
+        this.parent = parent;
+    }
+
+
     public Integer getId() {
         return id;
     }
