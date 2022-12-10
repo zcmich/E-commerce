@@ -11,13 +11,13 @@
 
         <div>
             <h2>Manage Categories</h2>
-            <a th:href="@{/users/new}" class="fas fa-folder-plus fa-2x icon-dark"></a>
+            <a th:href="@{/categories/new}" class="fas fa-folder-plus fa-2x icon-dark"></a>
             &nbsp;| &nbsp;
-            <a th:href="@{/users/export/csv} " class="fas fa-file-csv fa-2x icon-dark"></a>
+            <a th:href="@{/categories/export/csv} " class="fas fa-file-csv fa-2x icon-dark"></a>
             &nbsp;| &nbsp;
-            <a th:href="@{/users/export/excel}" class="fas fa-file-excel fa-2x icon-dark"></a>
+            <a th:href="@{/categories/export/excel}" class="fas fa-file-excel fa-2x icon-dark"></a>
             &nbsp;| &nbsp;
-            <a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark"></a>
+            <a th:href="@{/categories/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark"></a>
         </div>
 
         <div th:if="${message != null}" class="alert alert-success text-center col-sm-8 offset-sm-3">
@@ -48,9 +48,11 @@
             <table class="table table-bordered table-striped table-hover table-responsive-xl">
                 <thead class="thead-dark">
                 <tr>
-                    <th class="hideable-column">ID<th/>
+                    <th>ID</th>
 
                     <th>Category Image</th>
+
+                    <th>Category Name</th>
 
                     <th>Alias</th>
 
@@ -64,7 +66,7 @@
                 <tr th:each="category : ${listCategories}">
                     <td > [[${category.id}]] </td>
                     <td>
-
+                        <img th:src="@{${category.getImagePath()}}" style="width: 100px" class="img-fluid"/>
                     </td>
                     <td >[[${category.name}]]</td>
                     <td>[[${category.alias}]]</td>

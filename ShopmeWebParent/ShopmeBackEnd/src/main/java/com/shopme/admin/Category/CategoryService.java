@@ -1,14 +1,16 @@
 package com.shopme.admin.Category;
 
 
+import com.shopme.admin.user.CategoryNotFoundException;
 import com.shopme.common.entity.Category;
-import com.shopme.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 @Service
@@ -19,7 +21,101 @@ public class CategoryService {
     CategoryRepository categoryRepository;
 
     public List<Category> listAll() {
-        return (List<Category>) categoryRepository.findAll(Sort.by("name").ascending());
+        List<Category> rootCategories = categoryRepository.findRootCategories();
+
+        return listHierarchicalCategories(rootCategories);
+    }
+
+    public Category getCategoryById(Integer id) throws CategoryNotFoundException {
+         try{
+             return categoryRepository.findCategoriesById(id);
+         } catch (NoSuchElementException ex){
+             throw new CategoryNotFoundException("could not find any category with Id"+ id);
+         }
+
+    }
+
+    private List<Category> listHierarchicalCategories(List<Category> rootCategories){
+        List<Category> hierarchicalCategories = new ArrayList<>();
+
+        for(Category rootCategory : rootCategories){
+            hierarchicalCategories.add(Category.copyFull(rootCategory));
+
+            Set<Category> children = rootCategory.getChildren();
+
+            for (Category subCategory : children){
+                String name = "--" + subCategory.getName();
+                hierarchicalCategories.add(Category.copyFull(subCategory, name));
+                listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
+            }
+
+        }
+      return hierarchicalCategories;
+    }
+
+    private void listSubHierarchicalCategories(List<Category> hierarchicalCategories,Category parent, int subLevel){
+        Set<Category> children = parent.getChildren();
+        int newSubLevel = subLevel + 1;
+        for (Category subCategory : children){
+            String name = "";
+            for (int i = 0; i < newSubLevel ; i++) {
+                name += "--" ;
+            }
+            name+=subCategory.getName();
+            hierarchicalCategories.add(Category.copyFull(subCategory, name));
+            listSubCategoriesUsedInForm(hierarchicalCategories, subCategory, newSubLevel);
+        }
+    }
+
+
+    public  Category save(Category category){
+        return categoryRepository.save(category);
+    }
+
+    public List<Category> listCategoriesUsedInForm() {
+        List<Category> listCategoriesUsedInForm = new ArrayList<>();
+        List<Category> allCategoriesInDb = categoryRepository.findAll();
+
+        for (Category category : allCategoriesInDb){
+            if( category.getParent() == null ){
+
+                listCategoriesUsedInForm.add(category);
+
+                Set<Category> children = category.getChildren();
+
+                for (Category subCategory : children){
+                    String categoryName = "--" + subCategory.getName();
+                    listCategoriesUsedInForm.add(Category.copyIdAndName(categoryName, subCategory.getId()));
+
+                    listSubCategoriesUsedInForm( listCategoriesUsedInForm, subCategory, 1);
+                }
+            }
+
+        }
+
+
+        return listCategoriesUsedInForm;
+    }
+
+
+
+
+    private void listSubCategoriesUsedInForm(List<Category> listCategoriesUsedInForm, Category parent, int subLevel){
+        int newSubLevel = subLevel + 1;
+        Set<Category> children = parent.getChildren();
+
+        for (Category subCategory : children){
+            String name = "";
+
+            for (int i = 0; i < newSubLevel ; i++) {
+                name += "--" ;
+            }
+
+            name+=subCategory.getName();
+
+            listCategoriesUsedInForm.add(Category.copyIdAndName(name, subCategory.getId()));
+            listSubCategoriesUsedInForm(listCategoriesUsedInForm, subCategory, newSubLevel);
+        }
     }
 
 }
