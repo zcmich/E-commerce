@@ -77,11 +77,28 @@ public class CategoryRepositoryTests {
         }
     }
 
-
     @Test
     public void testListRootCategories(){
        List<Category> categoryList = categoryRepository.findRootCategories();
         categoryList.forEach(category -> System.out.println(category.getName()));
+    }
+
+    @Test
+    public void  testFindByName(){
+        String name = "Computers";
+        Category category = categoryRepository.findByName(name);
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(name);
+    }
+
+    @Test
+    public void  testFindByAlias(){
+        String name = "Gaming Laptops";
+        Category category = categoryRepository.findByName(name);
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(name);
     }
 
 }
