@@ -29,6 +29,10 @@ public class FileUploadUtil {
 
     }
 
+    /**
+     * Delete all files present in a directory
+     * @param dir
+     */
     public static void cleanDir(String dir){
         Path dirPath = Paths.get(dir);
 
@@ -48,4 +52,18 @@ public class FileUploadUtil {
 
     }
 
+    /**
+     * Delete a directory and all its contain
+     * @param dir
+     */
+    public static void removeDir(String dir) {
+        cleanDir(dir);
+
+        try {
+            Files.delete(Paths.get(dir));
+        } catch (IOException e) {
+            LOGGER.error("Could not remove directory: "+ dir);
+        }
+
+    }
 }

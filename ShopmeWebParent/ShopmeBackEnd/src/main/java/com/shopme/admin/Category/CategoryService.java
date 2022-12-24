@@ -2,6 +2,7 @@ package com.shopme.admin.Category;
 
 
 import com.shopme.admin.user.CategoryNotFoundException;
+import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -181,4 +182,15 @@ public class CategoryService {
 //        categoryRepository.save(categoryFound);
         categoryRepository.updateCategoryEnabledStatus(id, enabled);
     }
+
+    public void delete(Integer id) throws CategoryNotFoundException {
+        Long countById = categoryRepository.countById(id);
+        if (countById == null || countById == 0){
+            throw new CategoryNotFoundException("Could not find Category with ID" + id);
+        }
+        categoryRepository.deleteById(id);
+
+    }
+
+
 }

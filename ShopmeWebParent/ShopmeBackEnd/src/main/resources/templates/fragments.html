@@ -18,10 +18,9 @@
 
 <body>
 
-<div th:fragment="footer" class="text-center m-3">
+<div class="text-center m-3" th:fragment="footer">
     <p>Shopme control panel - Copyright &copy; shopme11 </p>
 </div>
-
 
 
 <th th:fragment="column_link(fieldName, columnLabel, removeTag )" th:remove="${removeTag}">
@@ -29,14 +28,29 @@
        th:href="@{'/users/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword='+ keyword : ' ' } }">
         [[${columnLabel}]]
     </a>
-    <span th:if="${sortField == fieldName}"
-          th:class="${sortDir} == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
+    <span th:class="${sortDir} == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'"
+          th:if="${sortField == fieldName}">
 
       </span>
 </th>
 
-<a th:fragment="page_link(pageNum, label)"
-   class="page-link"
+<a class="page-link"
+   th:fragment="page_link(pageNum, label)"
    th:href="@{'/users/page/'+ ${pageNum} +'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword='+ keyword : ' ' } }">[[${label}]]</a>
+
+<div th:fragment="category_actions" th:remove="tag">
+    <a class="fas fa-edit fa-2x icon-green" th:href="@{'/category/edit/' + ${category.id}}"
+       title="Edit this category"></a>
+    &nbsp; &nbsp;
+    <th:block th:if="${category.hasChildren == false}">
+        <a class="fas fa-trash fa-2x icon-red link-delete"
+           id="test"
+           th:entityId="${category.id}"
+           th:href="@{'/categories/delete/' + ${category.id}}" title="Delete this category"></a>
+    </th:block>
+
+</div>
+
+
 </body>
 </html>

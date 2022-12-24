@@ -83,19 +83,19 @@
                            th:href="@{'/categories/' + ${category.id} + '/enabled/true'}" title="Enable this category"></a>
 
                     </td>
+
                     <td>
-                        <a class="fas fa-edit fa-2x icon-green" th:href="@{'/category/edit/' + ${category.id}}"
-                           title="Edit this category"></a>
-                        &nbsp; &nbsp;
-                        <a class="fas fa-trash fa-2x icon-red link-delete"
-                           th:href="@{'/category/delete/' + ${category.id}}"
-                           th:userId="${category.id}"
-                           title="Delete this category" id="test"></a>
+                        <div th:replace="fragments :: category_actions"></div>
 
                     </td>
                 </tr>
                 </tbody>
             </table>
+
+            <div th:replace="modal_fragments :: confirm_modal"></div>
+
+            <div th:replace="fragments :: footer"></div>
+
         </div>
 
 
@@ -103,5 +103,15 @@
 
 
 </div>
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+    moduleURL = "[[@{/categories}]]";
+    $(document).ready(function () {
+        $(".link-delete").on("click",function (e) {
+           e.preventDefault();
+           showDeleteConfirmModal($(this), 'category');
+        });
+    })
+</script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.shopme.admin.Category;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.user.CategoryNotFoundException;
+import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -105,6 +106,18 @@ public class CategoryController {
         redirectAttributes.addFlashAttribute("message",message);
         return  "redirect:/categories";
     }
-
+    @GetMapping("/categories/delete/{id}")
+    public String deleteCategory(@PathVariable("id") Integer id,
+                                 RedirectAttributes redirectAttributes){
+        try{
+            categoryService.delete(id);
+            String categoryDir = "./category-images/" + id;
+            FileUploadUtil.removeDir(categoryDir);
+            redirectAttributes.addFlashAttribute("message","Category with Id "+ id + " successfully deleted");
+        }catch (CategoryNotFoundException ex){
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
+        }
+        return  "redirect:/categories";
+    }
 
 }
