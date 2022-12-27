@@ -53,7 +53,7 @@
                     <th>Category Image</th>
 
                     <th>
-                     <a class="text-white" th:href="@{'/categories?sortDir=' + ${reverseSortDir} }"> Category Name </a>
+                     <a class="text-white" th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir} }"> Category Name </a>
                         <span
                               th:class="${reverseSortDir} == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
 
@@ -94,6 +94,10 @@
 
             <div th:replace="modal_fragments :: confirm_modal"></div>
 
+            <div th:replace="modal_fragments :: modal_dialog"></div>
+
+            <div th:replace="fragments :: pagination('/categories', 'categories')"></div>
+
             <div th:replace="fragments :: footer"></div>
 
         </div>
@@ -103,15 +107,28 @@
 
 
 </div>
-<script th:src="@{/js/common_list.js}"></script>
+<script th:src="@{/js/common_list.js}" ></script>
+<script th:src="@{/js/common_form.js}" type="text/javascript"></script>
 <script type="text/javascript">
     moduleURL = "[[@{/categories}]]";
     $(document).ready(function () {
-        $(".link-delete").on("click",function (e) {
-           e.preventDefault();
-           showDeleteConfirmModal($(this), 'category');
+        // $(".link-delete").on("click",function (e) {
+        //    e.preventDefault();
+        //    showDeleteConfirmModal($(this), 'category');
+        // });
+
+        // $(".cant-delete").on("click",function (e) {
+        //     // e.preventDefault();
+        //     showWarningModal("Category has children and cannot be deleted");
+        // });
+
+        $(".cannot-delete").click(function (e) {
+            e.preventDefault();
+            console.log("hello")
+            showWarningModal("Category has children and cannot be deleted");
         });
-    })
+
+    });
 </script>
 </body>
 </html>
