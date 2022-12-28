@@ -61,11 +61,11 @@
 
 <div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
     <div class="text-center m-1" th:if="${totalItems > 0}">
-        <span> Showing [[${entityName}]] #  [[${startCount}]] to [[${endCount}]] of [[${totalItems}]] </span>
+        <span> Showing top [[${entityName}]] #  [[${startCount}]] to [[${endCount}]] of [[${totalItems}]] </span>
     </div>
 
     <div class="text-center m-1" th:unless="${totalItems > 0}">
-        <span> No [[${entityName}]] found </span>
+        <span> No top [[${entityName}]] found </span>
     </div>
 
     <div th:if="${totalPages > 1}">
@@ -94,6 +94,26 @@
             </ul>
         </nav>
     </div>
+</div>
+
+
+<div th:fragment="search_form(moduleURL)">
+    <form th:action="@{${moduleURL}}" class="form-inline m-3">
+        <input type="hidden" name="sortField" th:value="${sortField}"/>
+        <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+
+        Filter: &nbsp;
+        <input type="search" class="form-control" name="keyword" th:value="${keyword}" required/>
+        &nbsp;&nbsp;
+        <button type="submit" value="Search" class="btn btn-primary">
+            <i class="fas fa-search fa-2x "></i>
+        </button>
+        &nbsp;&nbsp;
+        <button type="button" value="Clear" class="btn btn-secondary" id="clearFilterButton"
+                onclick="clearFilter()">
+            <i class="fas fa-eraser fa-2x"></i>
+        </button>
+    </form>
 </div>
 
 

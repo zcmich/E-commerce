@@ -3,6 +3,7 @@ package com.shopme.admin.Category;
 
 import com.shopme.admin.user.CategoryNotFoundException;
 import com.shopme.admin.user.UserNotFoundException;
+import com.shopme.admin.user.UserService;
 import com.shopme.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public List<Category> listByPage(CategoryPageInfo categoryPageInfo, int pageNum, String sortDir) {
+    public List<Category> listByPage(CategoryPageInfo categoryPageInfo, int pageNum, String sortDir, String keyword) {
         Sort sort = Sort.by("name");
 
         if (sortDir.equals("asc")) {
@@ -35,13 +36,38 @@ public class CategoryService {
 
         Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);
 
-        Page<Category> pageCategories = categoryRepository.findRootCategories(pageable);
+        Page<Category> pageCategories = null;
+
+        if(keyword !=null && !keyword.isEmpty()){
+             pageCategories = categoryRepository.search(keyword, pageable);
+        }else{
+             pageCategories = categoryRepository.findRootCategories(pageable);
+        }
+
+
         List<Category> rootCategories = pageCategories.getContent();
 
+        long startCount = (pageNum-1) * ROOT_CATEGORIES_PER_PAGE + 1;
+        long endCount = startCount + ROOT_CATEGORIES_PER_PAGE - 1;
+        if (endCount > pageCategories.getTotalElements()){
+            endCount = pageCategories.getTotalElements();
+        }
+
+        categoryPageInfo.setStartCount(startCount);
+        categoryPageInfo.setEndCount(endCount);
         categoryPageInfo.setTotalPages(pageCategories.getTotalPages());
         categoryPageInfo.setTotalElements(pageCategories.getTotalElements());
 
-        return listHierarchicalCategories(rootCategories, sortDir);
+        if(keyword !=null && !keyword.isEmpty()){
+           List<Category> searchResult =  pageCategories.getContent();
+           for(Category cat : searchResult){
+               cat.setHasChildren(cat.getChildren().size() > 0);
+           }
+                      return searchResult;
+        }else{
+            return listHierarchicalCategories(rootCategories, sortDir);
+        }
+
     }
 
     public Category getCategoryById(Integer id) throws CategoryNotFoundException {
