@@ -11,20 +11,20 @@
 
         <div>
             <h2>Manage Categories</h2>
-            <a th:href="@{/categories/new}" class="fas fa-folder-plus fa-2x icon-dark"></a>
+            <a class="fas fa-folder-plus fa-2x icon-dark" th:href="@{/categories/new}"></a>
             &nbsp;| &nbsp;
-            <a th:href="@{/categories/export/csv} " class="fas fa-file-csv fa-2x icon-dark"></a>
+            <a class="fas fa-file-csv fa-2x icon-dark" th:href="@{/categories/export/csv} "></a>
             &nbsp;| &nbsp;
-            <a th:href="@{/categories/export/excel}" class="fas fa-file-excel fa-2x icon-dark"></a>
+            <a class="fas fa-file-excel fa-2x icon-dark" th:href="@{/categories/export/excel}"></a>
             &nbsp;| &nbsp;
-            <a th:href="@{/categories/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark"></a>
+            <a class="fas fa-file-pdf fa-2x icon-dark" th:href="@{/categories/export/pdf}"></a>
         </div>
 
-        <div th:if="${message != null}" class="alert alert-success text-center col-sm-8 offset-sm-3">
+        <div class="alert alert-success text-center col-sm-8 offset-sm-3" th:if="${message != null}">
             [[${message}]]
         </div>
 
-        <div th:replace="fragments :: search_form('/categories/page/1')">
+        <div th:replace="fragments :: search_form('/categories/page/1')"/>
 
 
         <div class="full-details">
@@ -36,9 +36,11 @@
                     <th>Category Image</th>
 
                     <th>
-                     <a class="text-white" th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir} }"> Category Name </a>
+                        <a class="text-white"
+                           th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir}+ ${keyword != null ? '&keyword='+ keyword : ' ' } }"> Category
+                            Name </a>
                         <span
-                              th:class="${reverseSortDir} == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
+                                th:class="${reverseSortDir} == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
 
       </span>
                     </th>
@@ -53,17 +55,19 @@
                 </thead>
                 <tbody>
                 <tr th:each="category : ${listCategories}">
-                    <td > [[${category.id}]] </td>
+                    <td> [[${category.id}]]</td>
                     <td>
-                        <img th:src="@{${category.getImagePath()}}" style="width: 100px" class="img-fluid"/>
+                        <img class="img-fluid" style="width: 100px" th:src="@{${category.getImagePath()}}"/>
                     </td>
-                    <td >[[${category.name}]]</td>
+                    <td>[[${category.name}]]</td>
                     <td>[[${category.alias}]]</td>
                     <td>
-                        <a th:if="${category.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
-                           th:href="@{'/categories/' + ${category.id} + '/enabled/false'}" title="Disable this category"></a>
-                        <a th:if="${category.enabled == false}" class="fas fa-circle fa-2x icon-dark "
-                           th:href="@{'/categories/' + ${category.id} + '/enabled/true'}" title="Enable this category"></a>
+                        <a class="fas fa-check-circle fa-2x icon-green" th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
+                           th:if="${category.enabled == true}"
+                           title="Disable this category"></a>
+                        <a class="fas fa-circle fa-2x icon-dark " th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
+                           th:if="${category.enabled == false}"
+                           title="Enable this category"></a>
 
                     </td>
 
@@ -79,7 +83,15 @@
 
             <div th:replace="modal_fragments :: modal_dialog"></div>
 
-            <div th:replace="fragments :: pagination('/categories', 'categories')"></div>
+            <div th:if="${keyword != null}" class="text-center m-1" >
+                <span >Search results does not show categories in hierarchical form</span>
+                <div th:replace="fragments :: pagination('/categories', 'categories')"></div>
+            </div>
+
+            <div th:unless="${keyword != null}">
+                <div th:replace="fragments :: pagination('/categories', 'top-level categories')"></div>
+            </div>
+
 
             <div th:replace="fragments :: footer"></div>
 
@@ -90,7 +102,7 @@
 
 
 </div>
-<script th:src="@{/js/common_list.js}" ></script>
+<script th:src="@{/js/common_list.js}"></script>
 <script th:src="@{/js/common_form.js}" type="text/javascript"></script>
 <script type="text/javascript">
     moduleURL = "[[@{/categories}]]";

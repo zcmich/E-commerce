@@ -50,6 +50,7 @@ public class CategoryController {
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("startCount",categoryPageInfo.getStartCount());
         model.addAttribute("endCount", categoryPageInfo.getEndCount());
+        model.addAttribute("keyword", keyword);
 
         model.addAttribute("sortField", "name");
         model.addAttribute("sortDir",sortDir);
