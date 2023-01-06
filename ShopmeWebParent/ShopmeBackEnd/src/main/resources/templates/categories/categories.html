@@ -35,14 +35,17 @@
 
                     <th>Category Image</th>
 
-                    <th>
-                        <a class="text-white"
-                           th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir}+ ${keyword != null ? '&keyword='+ keyword : ' ' } }">
-                            Category
-                            Name </a>
-                        <span
-                                th:class="${reverseSortDir} == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
-                        </span>
+<!--                    <th>-->
+<!--                        <a class="text-white"-->
+<!--                           th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir}+ ${keyword != null ? '&keyword='+ keyword : ' ' } }">-->
+<!--                            Category-->
+<!--                            Name </a>-->
+<!--                        <span-->
+<!--                                th:class="${reverseSortDir} == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">-->
+<!--                        </span>-->
+<!--                    </th>-->
+
+                    <th th:replace="fragments :: column_link('/categories','name', ' Category Name', 'none')"/>
                     </th>
 
                     <th class="hideable-column">Alias</th>
@@ -62,14 +65,16 @@
                     <td>[[${category.name}]]</td>
                     <td class="hideable-column">[[${category.alias}]]</td>
                     <td>
-                        <a class="fas fa-check-circle fa-2x icon-green"
-                           th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
-                           th:if="${category.enabled == true}"
-                           title="Disable this category"></a>
-                        <a class="fas fa-circle fa-2x icon-dark "
-                           th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
-                           th:if="${category.enabled == false}"
-                           title="Enable this category"></a>
+<!--                        <a class="fas fa-check-circle fa-2x icon-green"-->
+<!--                           th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"-->
+<!--                           th:if="${category.enabled == true}"-->
+<!--                           title="Disable this category"></a>-->
+<!--                        <a class="fas fa-circle fa-2x icon-dark "-->
+<!--                           th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"-->
+<!--                           th:if="${category.enabled == false}"-->
+<!--                           title="Enable this category"></a>-->
+
+                        <div th:replace="fragments :: status(${category.enabled}, 'user', '/users/' + ${user.id})"></div>
 
                     </td>
 
