@@ -37,15 +37,15 @@
 
                     <th>
                         <a class="text-white"
-                           th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir}+ ${keyword != null ? '&keyword='+ keyword : ' ' } }"> Category
+                           th:href="@{'/categories/page/'+ ${currentPage} + '?sortDir=' + ${reverseSortDir}+ ${keyword != null ? '&keyword='+ keyword : ' ' } }">
+                            Category
                             Name </a>
                         <span
                                 th:class="${reverseSortDir} == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'">
-
-      </span>
+                        </span>
                     </th>
 
-                    <th>Alias</th>
+                    <th class="hideable-column">Alias</th>
 
                     <th>Enabled</th>
 
@@ -60,12 +60,14 @@
                         <img class="img-fluid" style="width: 100px" th:src="@{${category.getImagePath()}}"/>
                     </td>
                     <td>[[${category.name}]]</td>
-                    <td>[[${category.alias}]]</td>
+                    <td class="hideable-column">[[${category.alias}]]</td>
                     <td>
-                        <a class="fas fa-check-circle fa-2x icon-green" th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
+                        <a class="fas fa-check-circle fa-2x icon-green"
+                           th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
                            th:if="${category.enabled == true}"
                            title="Disable this category"></a>
-                        <a class="fas fa-circle fa-2x icon-dark " th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
+                        <a class="fas fa-circle fa-2x icon-dark "
+                           th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
                            th:if="${category.enabled == false}"
                            title="Enable this category"></a>
 
@@ -78,13 +80,45 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+
+        <!--         small devices only -->
+        <div class="less-details">
+            <div th:each="category : ${listCategories}" class="row m-1">
+
+                <div class="col-4">
+                    <img class="img-fluid" style="width: 100px" th:src="@{${category.getImagePath()}}"/>
+                </div>
+                <div class="col-8">
+                    <div>[[${category.name}]]</div>
+                    <div class="mt-2">
+                        <a class="fas fa-check-circle fa-2x icon-green"
+                           th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
+                           th:if="${category.enabled == true}"
+                           title="Disable this category"></a>
+                        <a class="fas fa-circle fa-2x icon-dark "
+                           th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
+                           th:if="${category.enabled == false}"
+                           title="Enable this category"></a>
+
+
+                        <div th:replace="fragments :: category_actions"></div>
+                    </div>
+                </div>
+
+
+                <div>&nbsp;</div>
+            </div>
+        </div>
+
+
 
             <div th:replace="modal_fragments :: confirm_modal"></div>
 
             <div th:replace="modal_fragments :: modal_dialog"></div>
 
-            <div th:if="${keyword != null}" class="text-center m-1" >
-                <span >Search results does not show categories in hierarchical form</span>
+            <div class="text-center m-1" th:if="${keyword != null}">
+                <span>Search results does not show categories in hierarchical form</span>
                 <div th:replace="fragments :: pagination('/categories', 'categories')"></div>
             </div>
 
@@ -95,7 +129,7 @@
 
             <div th:replace="fragments :: footer"></div>
 
-        </div>
+
 
 
     </div>
@@ -107,10 +141,10 @@
 <script type="text/javascript">
     moduleURL = "[[@{/categories}]]";
     $(document).ready(function () {
-        // $(".link-delete").on("click",function (e) {
-        //    e.preventDefault();
-        //    showDeleteConfirmModal($(this), 'category');
-        // });
+        $(".link-delete").on("click",function (e) {
+           e.preventDefault();
+           showDeleteConfirmModal($(this), 'category');
+        });
 
         // $(".cant-delete").on("click",function (e) {
         //     // e.preventDefault();
