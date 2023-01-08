@@ -28,11 +28,9 @@
             <a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark"></a>
         </div>
 
-        <div th:if="${message != null}" class="alert alert-success text-center col-sm-8 offset-sm-3">
-            [[${message}]]
-        </div>
 
-        <div th:replace="fragments :: search_form( '/users/page/1')"/>
+
+        <div th:replace="fragments :: search_form_and_message( '/users/page/1')"/>
 
 
 
@@ -87,12 +85,12 @@
 <!--                           title="Edit this user"></a>-->
 
                         <div th:replace="fragments :: edit('user','/users/edit/' + ${user.id})"></div>
-                        &nbsp; &nbsp;
+                        <div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
 
-                        <a class="fas fa-trash fa-2x icon-red link-delete"
-                           th:href="@{'/users/delete/' + ${user.id}}"
-                           th:userId="${user.id}"
-                           title="Delete this user" id="test"></a>
+<!--                        <a class="fas fa-trash fa-2x icon-red link-delete"-->
+<!--                           th:href="@{'/users/delete/' + ${user.id}}"-->
+<!--                           th:userId="${user.id}"-->
+<!--                           title="Delete this user" id="test"></a>-->
 
                     </td>
                 </tr>
@@ -114,16 +112,17 @@
                     <div>[[${user.roles}]]</div>
                     <div class="mt-2">
                         <div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})"></div>
-
-<!--                        <a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"-->
-<!--                           title="Edit this user"></a>-->
-
+                        &nbsp;
                         <div th:replace="fragments :: edit('user','/users/edit/' + ${user.id})"></div>
-                        &nbsp; &nbsp;
-                        <a class="fas fa-trash fa-2x icon-red link-delete"
-                           th:href="@{'/users/delete/' + ${user.id}}"
-                           th:userId="${user.id}"
-                           title="Delete this user"> </a>
+                        &nbsp;
+<!--&nbsp; &nbsp;                     <div th:replace="fragments :: delete('user', 'bb' , '/users/delete/' + ${user.id}, true)"></div>-->
+
+                        <div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
+
+<!--                        <a class="fas fa-trash fa-2x icon-red link-delete"-->
+<!--                           th:href="@{'/users/delete/' + ${user.id}}"-->
+<!--                           th:userId="${user.id}"-->
+<!--                           title="Delete this user"> </a>-->
                     </div>
                 </div>
 

@@ -20,11 +20,11 @@
             <a class="fas fa-file-pdf fa-2x icon-dark" th:href="@{/categories/export/pdf}"></a>
         </div>
 
-        <div class="alert alert-success text-center col-sm-8 offset-sm-3" th:if="${message != null}">
-            [[${message}]]
-        </div>
+<!--        <div class="alert alert-success text-center col-sm-8 offset-sm-3" th:if="${message != null}">-->
+<!--            [[${message}]]-->
+<!--        </div>-->
 
-        <div th:replace="fragments :: search_form('/categories/page/1')"/>
+        <div th:replace="fragments :: search_form_and_message('/categories/page/1')"/>
 
 
         <div class="full-details">
@@ -74,7 +74,7 @@
 <!--                           th:if="${category.enabled == false}"-->
 <!--                           title="Enable this category"></a>-->
 
-                        <div th:replace="fragments :: status(${category.enabled}, 'user', '/users/' + ${user.id})"></div>
+                        <div th:replace="fragments :: status(${category.enabled}, 'Category', '/categories/' + ${category.id})"></div>
 
                     </td>
 
