@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Brands table - shopmeAdmin')"/>
+
+<body>
+<div class="container-fluid">
+    <div>
+
+        <div th:replace="nav :: menu"></div>
+
+        <div>
+            <h2>Manage Brands</h2>
+            <a class="fas fa-folder-plus fa-2x icon-dark" th:href="@{/brands/new}"></a>
+            &nbsp;| &nbsp;
+            <a class="fas fa-file-csv fa-2x icon-dark" th:href="@{/brands/export/csv} "></a>
+            &nbsp;| &nbsp;
+            <a class="fas fa-file-excel fa-2x icon-dark" th:href="@{/brands/export/excel}"></a>
+            &nbsp;| &nbsp;
+            <a class="fas fa-file-pdf fa-2x icon-dark" th:href="@{/brands/export/pdf}"></a>
+        </div>
+
+<!--        <div class="alert alert-success text-center col-sm-8 offset-sm-3" th:if="${message != null}">-->
+<!--            [[${message}]]-->
+<!--        </div>-->
+
+        <div th:replace="fragments :: search_form_and_message('/brands/page/1')"/>
+
+
+        <div class="full-details">
+            <table class="table table-bordered table-striped table-hover table-responsive-xl">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Brand ID</th>
+
+                    <th>Logo</th>
+                    
+                    <th>Brands Name</th>
+
+                    <th>Categories</th>
+
+                    <th></th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr th:each="brand : ${listBrands}">
+                    <td> [[${brand.id}]]</td>
+                    
+                    <td>
+                        <img class="img-fluid" style="width: 100px" th:src="@{${brand.getLogoPath()}}"/>
+                    </td>
+                    
+                    <td>[[${brand.name}]]</td>
+                    
+                    <td >
+                        <th:block th:each=" category : ${brand.categories}">
+                            <span class="badge badge-secondary" th:text="${category.name}"></span>
+                        </th:block>
+
+                    </td>
+                    
+                    <td>
+                        <div th:replace="fragments :: edit('brand','/brand/edit/' + ${brand.id})"></div>
+                        &nbsp;
+                        <div th:replace="fragments :: delete('brand', ${brand.id}, '/brand/delete/' + ${brand.id}, true)"></div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--         small devices only -->
+        <div class="less-details">
+            <div th:each="brand : ${listBrands}" class="row m-1">
+
+                <div class="col-4">
+                    <img class="img-fluid" style="width: 100px" th:src="@{${brand.getLogoPath()}}"/>
+                </div>
+                <div class="col-8">
+                    <div>[[${brand.name}]]</div>
+                    <div class="mt-2">
+
+                        <div th:replace="fragments :: edit('brand','/brand/edit/' + ${brand.id})"></div>
+                        &nbsp;
+                        <div th:replace="fragments :: delete('brand', ${brand.id}, '/brand/delete/' + ${brand.id}, true)"></div>
+                    </div>
+                </div>
+
+
+                <div>&nbsp;</div>
+            </div>
+        </div>
+
+
+
+            <div th:replace="modal_fragments :: confirm_modal"></div>
+
+            <div th:replace="modal_fragments :: modal_dialog"></div>
+
+            <div class="text-center m-1" th:if="${keyword != null}">
+                <span>Search results does not show categories in hierarchical form</span>
+                <div th:replace="fragments :: pagination('/brands', 'categories')"></div>
+            </div>
+
+            <div th:unless="${keyword != null}">
+                <div th:replace="fragments :: pagination('/categories', 'top-level categories')"></div>
+            </div>
+
+
+            <div th:replace="fragments :: footer"></div>
+
+
+
+
+    </div>
+
+
+</div>
+<script th:src="@{/js/common_list.js}"></script>
+<script th:src="@{/js/common_form.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    moduleURL = "[[@{/categories}]]";
+    $(document).ready(function () {
+        $(".link-delete").on("click",function (e) {
+           e.preventDefault();
+           showDeleteConfirmModal($(this), 'brand');
+        });
+
+        // $(".cant-delete").on("click",function (e) {
+        //     // e.preventDefault();
+        //     showWarningModal("brand has children and cannot be deleted");
+        // });
+
+        $(".cannot-delete").click(function (e) {
+            e.preventDefault();
+            console.log("hello")
+            showWarningModal("brand has children and cannot be deleted");
+        });
+
+    });
+</script>
+</body>
+</html>

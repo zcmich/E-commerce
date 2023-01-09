@@ -76,4 +76,13 @@ public class Brand {
                 ", categories=" + categories +
                 '}';
     }
+
+
+    @Transient
+    public String getLogoPath(){
+        if(logo == null || id==null){
+            return  "/images/image-thumbnail.png";
+        }
+        return "/brand-images/" + this.getId() + "/" + this.getLogo();
+    }
 }
