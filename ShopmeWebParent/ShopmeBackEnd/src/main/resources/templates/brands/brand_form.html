@@ -51,6 +51,9 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Chosen categories</label>
                 <div class="col-sm-8">
+                    <div id="chosenCategories">
+
+                    </div>
 
                 </div>
             </div>
@@ -71,30 +74,54 @@
 </div>
 
 <script type="text/javascript">
-    moduleURL = "[[@{/users}]]"
-    function checkEmailUnique(form) {
-        let url = "[[@{/users/check_email}]]"
-        let userEmail = $("#email").val();
-        let userId = $("#id").val();
-        let csrfValue = $("input[name='_csrf']").val();
-        let params = {id: userId, email: userEmail, _csrf: csrfValue};
+    moduleURL = "[[@{/brands}]]";
 
-        // if(true) return  false;
-        $.post(url, params, function (response) {
-            if (response == "OK") {
-                form.submit();
-            } else if (response == "Duplicated") {
-                let msg = "User email " + userEmail + " already taken!"
-                showWarningModal(msg);
-            } else {
-                showErrorModal( "Unknown response from server");
-            }
-        }).fail(function () {
-            showErrorModal("Could not connect to Server")
-        });
+    $(document).ready(function () {
+      let categoriesUsedInFormId =  $("#categories");
+      let divChosenCategories = $("#chosenCategories");
 
-        return false;
-    }
+      categoriesUsedInFormId.change(function () {
+          divChosenCategories.empty();
+          showChosenCategories();
+      });
+
+      function showChosenCategories() {
+          categoriesUsedInFormId.children("option:selected").each(function () {
+              let selectedCategory = $(this);
+              let catId = selectedCategory.val();
+              let catName = selectedCategory.text().replaceAll("-", " ");
+
+              divChosenCategories.append("<span class=\"badge badge-secondary m-1 \" >"+ catName +"</span>")
+
+          });
+      }
+
+
+    });
+
+    // function checkEmailUnique(form) {
+    //     let url = "[[@{/users/check_email}]]"
+    //     let userEmail = $("#email").val();
+    //     let userId = $("#id").val();
+    //     let csrfValue = $("input[name='_csrf']").val();
+    //     let params = {id: userId, email: userEmail, _csrf: csrfValue};
+    //
+    //     // if(true) return  false;
+    //     $.post(url, params, function (response) {
+    //         if (response == "OK") {
+    //             form.submit();
+    //         } else if (response == "Duplicated") {
+    //             let msg = "User email " + userEmail + " already taken!"
+    //             showWarningModal(msg);
+    //         } else {
+    //             showErrorModal( "Unknown response from server");
+    //         }
+    //     }).fail(function () {
+    //         showErrorModal("Could not connect to Server")
+    //     });
+    //
+    //     return false;
+    // }
 
 
 </script>
