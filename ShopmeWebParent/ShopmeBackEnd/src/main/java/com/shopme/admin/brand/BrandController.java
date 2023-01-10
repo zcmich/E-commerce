@@ -1,5 +1,6 @@
 package com.shopme.admin.brand;
 
+import com.shopme.admin.Category.CategoryService;
 import com.shopme.common.entity.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import java.util.List;
 public class BrandController {
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private CategoryService categoryService;;
 
     @GetMapping("/brands")
     public String listAllBrands(Model model, RedirectAttributes redirectAttributes){
@@ -24,9 +27,14 @@ public class BrandController {
         return "brands/brands";
     }
 
-    @PostMapping("/brands/new")
-    public String newBrand(){
+    @GetMapping("/brands/new")
+    public String newBrand(Model model){
+      Brand brand = new Brand();
+      List listCategories = categoryService.listCategoriesUsedInForm();
 
+      model.addAttribute("listCategories",listCategories);
+      model.addAttribute("brand", brand);
+      model.addAttribute("pageTitle", "Create new Brand");
 
         return "brands/brand_form";
     }

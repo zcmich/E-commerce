@@ -83,6 +83,6 @@ public class Brand {
         if(logo == null || id==null){
             return  "/images/image-thumbnail.png";
         }
-        return "/brand-images/" + this.getId() + "/" + this.getLogo();
+        return "/brand-logoss/" + this.getId() + "/" + this.getLogo();
     }
 }
