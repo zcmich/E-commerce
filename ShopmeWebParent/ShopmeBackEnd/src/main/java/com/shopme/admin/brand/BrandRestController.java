@@ -12,11 +12,8 @@ public class BrandRestController {
 
 
     @PostMapping("/brands/check_name")
-    public String checkBrandNameEmail(@Param("brandName") String brandName, @Param("brandID") Integer brandID){
-        brandService.isBrandNameUnique(brandID, brandName);
-
-
-        return null;
+    public String checkBrandNameEmail(@Param("name") String name, @Param("id") Integer id){
+        return brandService.isBrandNameUnique(id, name) ? "OK" : "Duplicated";
     }
 
 

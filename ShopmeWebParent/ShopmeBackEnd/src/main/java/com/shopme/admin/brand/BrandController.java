@@ -63,7 +63,8 @@ public class BrandController {
 
         redirectAttributes.addFlashAttribute("message", "Brand "+ brand.getName()+ " "+" has been saved successfully");
 
-        return "redirect:brands/brands";
+        return  "redirect:/brands";
+
     }
 
 }
